@@ -4,7 +4,7 @@ const app = express()
 
 app.use(express.json())
 
-const persons = [
+let persons = [
     {
         name: "Ada Lovelace",
         number: "39-44-5323523",
@@ -60,6 +60,14 @@ app.get('/info', (req, res) => {
                 <p>${date}</p></div>`)
 })
 
+app.delete('/api/persons/:id', (request, response) => {
+    //console.log('Deleting: ', request.params.id)
+    const id = Number(request.params.id)
+    persons = persons.filter(p => p.id !== id)
+  
+    response.status(204).end()
+  })
+  
 
 const port = 3003
 app.listen(port)
