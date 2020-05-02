@@ -1,0 +1,9 @@
+loki phonebook_backend muutoksiin yms.
+
+2.5.2020
+%git init
+%wget https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore -O .gitignore
+
+loin repon Githubissa ja kloonasin, tällä tavoin toimii
+% git clone https://github.com/esamaaninka/phonebook_backend.git
+%npm init

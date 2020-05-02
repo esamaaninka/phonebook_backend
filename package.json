@@ -1,0 +1,27 @@
+{
+  "name": "phonebook_backend",
+  "version": "0.0.1",
+  "description": "Phonebook backend Fullstack2020 excercise 3.x",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esamaaninka/phonebook_backend.git"
+  },
+  "author": "Esa Maaninka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/esamaaninka/phonebook_backend/issues"
+  },
+  "homepage": "https://github.com/esamaaninka/phonebook_backend#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
