@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
     res.json(persons)
   })
 
-  app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     console.log(id)
     const person = persons.find(p => {
@@ -50,8 +50,17 @@ app.get('/', (req, res) => {
       response.status(404).end()
     }
   
-  })
-//console.log('Hello world', persons)
+})
+
+app.get('/info', (req, res) => {
+    //console.log('info')
+    const count = persons.length
+    const date = new Date()
+
+    res.send(`<div><p>Phonebook has info for ${count} people.</p>
+                <p>${date}</p></div>`)
+})
+
 
 const port = 3003
 app.listen(port)
