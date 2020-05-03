@@ -66,8 +66,46 @@ app.delete('/api/persons/:id', (request, response) => {
     persons = persons.filter(p => p.id !== id)
   
     response.status(204).end()
-  })
+})
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min; 
+  }
+
+    //let value = Math.random() * (4-1) + 1
+    //console.log('randomii: ', getRandomInt(1,100))
+
+
+const generateId = () => {
+   let id = getRandomInt(1,100)
+
+   // if all id -space used error not handled -> infite loop
+   while(persons.some(p => p.id === id)) id = getRandomInt(1,100)
+   
+   return id
+  }
+
+
   
+app.post('/api/persons', (request, response) => {
+    const body = request.body
+    
+    if (!body) {
+      return response.status(400).json({ 
+        error: 'content missing' 
+      })
+    }
+    
+    const person = {
+      name: body.name,
+      number: body.number,
+      id: generateId()
+    }
+    console.log('Person ', person)
+    persons = persons.concat(person)
+      
+    response.json(person)
+  })
 
 const port = 3003
 app.listen(port)
