@@ -7,3 +7,6 @@ loki phonebook_backend muutoksiin yms.
 loin repon Githubissa ja kloonasin, tällä tavoin toimii
 % git clone https://github.com/esamaaninka/phonebook_backend.git
 %npm init
+
+3.5.2020
+%npm install morgan
