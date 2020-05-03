@@ -72,9 +72,6 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; 
   }
 
-    //let value = Math.random() * (4-1) + 1
-    //console.log('randomii: ', getRandomInt(1,100))
-
 
 const generateId = () => {
    let id = getRandomInt(1,100)
@@ -90,7 +87,7 @@ const generateId = () => {
 app.post('/api/persons', (request, response) => {
     const body = request.body
     
-    if (!body) {
+    if (!body || !body.name || !body.number) {
       return response.status(400).json({ 
         error: 'content missing' 
       })
@@ -101,7 +98,13 @@ app.post('/api/persons', (request, response) => {
       number: body.number,
       id: generateId()
     }
-    console.log('Person ', person)
+    if(persons.find(p => p.name == person.name)){
+        //console.log('Add person - name must be unique')
+        return response.status(400).json({
+            error: 'name must be unique'
+        })
+    }
+    //console.log('Person ', person)
     persons = persons.concat(person)
       
     response.json(person)
