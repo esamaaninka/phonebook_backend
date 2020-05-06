@@ -1,7 +1,9 @@
 
 const express = require('express')
 const app = express()
+const cors = require('cors')
 
+app.use(cors())
 app.use(express.json())
 
 var morgan = require('morgan')
@@ -88,7 +90,9 @@ const generateId = () => {
   }
 
 
-  
+// HOX tämä vasta 3.17 harjoituksessa! 
+//app.put()  
+
 app.post('/api/persons', (request, response) => {
     const body = request.body
     
