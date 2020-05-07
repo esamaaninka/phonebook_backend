@@ -11,3 +11,7 @@ loin repon Githubissa ja kloonasin, tällä tavoin toimii
 3.5.2020
 %npm install morgan
 6.5 cors
+
+7.5.2020
+Heroku, Procfile Windowsissa tuottaa ongelmia, vaikka tallettaa UFT-8 niin siitä huolimatta en saanut
+toimimaan. Linuxissa toimii hienosti.
