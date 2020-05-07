@@ -1,6 +1,8 @@
 # phonebook_backend
 Backend for phonebook app, Fullstack2020 excercise 3.x
 
+Local server running on port 3001
+
 Heroku:
 https://safe-lake-35420.herokuapp.com/api/persons/
 
