@@ -1,6 +1,5 @@
-//POST http://localhost:3001/api/persons/
-POST https://safe-lake-35420.herokuapp.com/api/persons/
-//POST mongodb+srv://esa-fullstack:${process.argv[2]}@cluster0-fhhrm.mongodb.net/phonebook-app?retryWrites=true&w=majority
+POST http://localhost:3003/api/persons/
+//POST https://safe-lake-35420.herokuapp.com/api/persons/
 Content-Type: application/json
 
 {

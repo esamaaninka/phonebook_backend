@@ -17,9 +17,10 @@ const phonebookSchema = new mongoose.Schema({
     number: String,
 })
 
-const Phonebook = mongoose.model('Phonebook', phonebookSchema)
+// tämä vai allaoleva ?
+//const Phonebook = mongoose.model('Phonebook', phonebookSchema)
 
-/*
+
 phonebookSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
@@ -27,5 +28,5 @@ phonebookSchema.set('toJSON', {
     delete returnedObject.__v
   }
 })
-*/
+
 module.exports = mongoose.model('Phonebook', phonebookSchema)

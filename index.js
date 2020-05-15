@@ -100,40 +100,25 @@ const generateId = () => {
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
-    console.log('POST adding to body')
+    //console.log('POST adding to body', body.name)
     if (!body || !body.name || !body.number) {
       return response.status(400).json({ 
         error: 'content missing' 
       })
     }
-    /*
-    const person = {
-      name: body.name,
-      number: body.number,
-      id: generateId()
 
-    }
-    */
-   const person = new Phonebook ({
-      name: body.name,
-      number: body.number,
-   })
-
-    if(persons.find(p => p.name == person.name)){
-        //console.log('Add person - name must be unique')
-        return response.status(400).json({
-            error: 'name must be unique'
+    const person = new Phonebook ({
+        name: body.name,
+        number: body.number,
+     })
+  
+     person.save().then(savedPerson => {
+        //console.log('phonebook saved!', savedPerson)
+        response.json(savedPerson.toJSON())
         })
-    }
-    /*
-    console.log('Person ', person)
-    persons = persons.concat(person)
-    response.json(person)
-    */
-    person.save().then(savedPerson => {
-      response.json(savedPerson.toJSON())
-  })
-})
+        
+ })
+
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
