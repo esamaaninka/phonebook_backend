@@ -1,7 +1,8 @@
-
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const Phonebook = require('./models/phonebook_db')
 
 app.use(cors())
 app.use(express.json())
@@ -41,9 +42,12 @@ app.get('/', (req, res) => {
     res.send('<h1>Hello World!</h1>')
   })
 
-  app.get('/api/persons', (req, res) => {
-    res.json(persons)
-  })
+app.get('/api/persons', (req, res) => {
+      Phonebook.find({}).then(result => {
+        res.json(result.map(p => p.toJSON()))
+        console.log("got persons: ", result)
+      })
+})
 
 app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
@@ -96,29 +100,45 @@ const generateId = () => {
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
-    
+    console.log('POST adding to body')
     if (!body || !body.name || !body.number) {
       return response.status(400).json({ 
         error: 'content missing' 
       })
     }
-    
+    /*
     const person = {
       name: body.name,
       number: body.number,
       id: generateId()
+
     }
+    */
+   const person = new Phonebook ({
+      name: body.name,
+      number: body.number,
+   })
+
     if(persons.find(p => p.name == person.name)){
         //console.log('Add person - name must be unique')
         return response.status(400).json({
             error: 'name must be unique'
         })
     }
-    //console.log('Person ', person)
+    /*
+    console.log('Person ', person)
     persons = persons.concat(person)
-      
     response.json(person)
+    */
+    person.save().then(savedPerson => {
+      response.json(savedPerson.toJSON())
   })
+})
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+app.use(unknownEndpoint)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
