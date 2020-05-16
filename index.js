@@ -73,11 +73,18 @@ app.get('/info', (req, res) => {
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-    //console.log('Deleting: ', request.params.id)
+    /*console.log('Deleting: ', request.params.id)
     const id = Number(request.params.id)
     persons = persons.filter(p => p.id !== id)
   
     response.status(204).end()
+    })
+    */
+    Phonebook.findByIdAndRemove(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    //.catch(error => next(error))
 })
 
 function getRandomInt(min, max) {
