@@ -10,7 +10,7 @@ app.use(express.static('build'))
 
 var morgan = require('morgan')
 //app.use(morgan('tiny'))
-morgan.token('body', function (req, res) { return (JSON.stringify(req.body)) })
+morgan.token('body', function (request, response) { return (JSON.stringify(request.body)) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let persons = [
@@ -38,13 +38,13 @@ let persons = [
 
 
 
-app.get('/', (req, res) => {
-    res.send('<h1>Hello World!</h1>')
+app.get('/', (request, response) => {
+    response.send('<h1>Hello World!</h1>')
   })
 
-app.get('/api/persons', (req, res) => {
+app.get('/api/persons', (request, response) => {
       Phonebook.find({}).then(result => {
-        res.json(result.map(p => p.toJSON()))
+        response.json(result.map(p => p.toJSON()))
         console.log("got persons: ", result)
       })
 })
@@ -97,8 +97,21 @@ const generateId = () => {
   }
 */
 
-// HOX tämä vasta 3.17 harjoituksessa! 
-//app.put()  
+
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
+  //console.log('Putting: ', body)
+
+  const person = {
+    name: body.name,
+    number: body.number,
+  }
+  Phonebook.findByIdAndUpdate(request.params.id, person, {new: true})
+    .then(updatedPerson => {
+      response.json(updatedPerson.toJSON())
+    })
+    .catch(error => next(error))
+})
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
