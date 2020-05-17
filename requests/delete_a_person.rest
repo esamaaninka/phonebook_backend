@@ -1,2 +1,2 @@
-//DELETE http://localhost:3001/api/persons/2
-DELETE https://safe-lake-35420.herokuapp.com/api/persons/32
+DELETE http://localhost:3003/api/persons/5ec1a0508486fe0b7c5e019e
+//DELETE https://safe-lake-35420.herokuapp.com/api/persons/32

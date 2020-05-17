@@ -9,6 +9,7 @@ const mongoose = require('mongoose')
 if ( process.argv.length<3 ) {
     console.log('\nTo add a new name - give password, new name and number as arguments\n')
     console.log('To list the phonebook content - give password as only argument\n')
+    console.log('To list the count of phonebook content - give password and count as arguments\n')
     process.exit(1)
 }
 
@@ -41,6 +42,14 @@ switch (process.argv.length) {
           })
         break;
         
+    case 4:
+          Phonebook.countDocuments().then(result => {
+            console.log('Count: ', result)
+            mongoose.connection.close()
+          })
+          
+      break;
+
     case 5:
         phonebook.save().then(response => {
           //console.log('phonebook saved!', response)

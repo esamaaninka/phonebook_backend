@@ -13,30 +13,6 @@ var morgan = require('morgan')
 morgan.token('body', function (request, response) { return (JSON.stringify(request.body)) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-let persons = [
-    {
-        name: "Ada Lovelace",
-        number: "39-44-5323523",
-        id: 2
-    },
-    {
-        name: "Mary Poppendieck",
-        number: "39-23-6423122",
-        id: 4
-    },
-    {
-        name: "Arto Hellas",
-        number: "050-123456",
-        id: 11
-    },
-    {
-        name: "Dan Abramov",
-        number: "12-43-234345",
-        id: 12
-    }
-]
-
-
 
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
@@ -45,7 +21,7 @@ app.get('/', (request, response) => {
 app.get('/api/persons', (request, response) => {
       Phonebook.find({}).then(result => {
         response.json(result.map(p => p.toJSON()))
-        console.log("got persons: ", result)
+        //console.log("got persons: ", result)
       })
 })
 
@@ -64,38 +40,25 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 })
 
-/*
-app.get('/info', (req, res) => {
-    //console.log('info')
-    const count = persons.length
-    const date = new Date()
 
-    res.send(`<div><p>Phonebook has info for ${count} people.</p>
-                <p>${date}</p></div>`)
+app.get('/info', (request, response, next) => {
+    //console.log('info')
+    Phonebook.countDocuments()
+      .then(result => {
+        response.send(`<div><p>Phonebook has info for ${result} people.</p></div>`)
+      })
+      .catch(error => next(error))
 })
-*/
+
+
 app.delete('/api/persons/:id', (request, response, next) => {
     Phonebook.findByIdAndRemove(request.params.id)
     .then(result => {
-      response.status(204).end()
+       response.status(204).end()
     })
     .catch(error => next(error))
 })
-/*
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min; 
-  }
-*/
-/*
-const generateId = () => {
-   let id = getRandomInt(1,100)
 
-   // if all id -space used error not handled -> infite loop
-   while(persons.some(p => p.id === id)) id = getRandomInt(1,100)
-   
-   return id
-  }
-*/
 
 
 app.put('/api/persons/:id', (request, response, next) => {
