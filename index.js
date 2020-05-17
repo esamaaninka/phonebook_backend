@@ -49,20 +49,22 @@ app.get('/api/persons', (req, res) => {
       })
 })
 
-app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    console.log(id)
-    const person = persons.find(p => {
-        return p.id === id
+app.get('/api/persons/:id', (request, response, next) => {
+    Phonebook.findById(request.params.id)
+    .then(person => {
+      //console.log(person)
+      if(person){
+        response.json(person.toJSON())
+      }
+      else {
+        response.status(404).end()
+      }
     })
-    if (person) {
-      response.json(person)
-    } else {
-      response.status(404).end()
-    }
-  
+    .catch(error => next(error))
+
 })
 
+/*
 app.get('/info', (req, res) => {
     //console.log('info')
     const count = persons.length
@@ -71,27 +73,20 @@ app.get('/info', (req, res) => {
     res.send(`<div><p>Phonebook has info for ${count} people.</p>
                 <p>${date}</p></div>`)
 })
-
-app.delete('/api/persons/:id', (request, response) => {
-    /*console.log('Deleting: ', request.params.id)
-    const id = Number(request.params.id)
-    persons = persons.filter(p => p.id !== id)
-  
-    response.status(204).end()
-    })
-    */
+*/
+app.delete('/api/persons/:id', (request, response, next) => {
     Phonebook.findByIdAndRemove(request.params.id)
     .then(result => {
       response.status(204).end()
     })
-    //.catch(error => next(error))
+    .catch(error => next(error))
 })
-
+/*
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; 
   }
-
-
+*/
+/*
 const generateId = () => {
    let id = getRandomInt(1,100)
 
@@ -100,7 +95,7 @@ const generateId = () => {
    
    return id
   }
-
+*/
 
 // HOX tämä vasta 3.17 harjoituksessa! 
 //app.put()  
@@ -131,6 +126,19 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  console.error('ErrorHandler: ', error.message)
+
+  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+
+app.use(errorHandler)
+
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
