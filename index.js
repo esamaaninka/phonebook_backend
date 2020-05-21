@@ -69,21 +69,22 @@ app.put('/api/persons/:id', (request, response, next) => {
     name: body.name,
     number: body.number,
   }
-  Phonebook.findByIdAndUpdate(request.params.id, person, {new: true})
+  Phonebook.findByIdAndUpdate(request.params.id, person, { runValidators: true, context: 'query'})
     .then(updatedPerson => {
+      console.log('updated person: ', updatedPerson)
       response.json(updatedPerson.toJSON())
     })
     .catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     const body = request.body
     //console.log('POST adding to body', body.name)
-    if (!body || !body.name || !body.number) {
-      return response.status(400).json({ 
-        error: 'content missing' 
-      })
-    }
+    //if (!body || !body.name || !body.number) {
+      //return response.status(400).json({ 
+        //error: 'content missing' 
+     // })
+   // }
 
     const person = new Phonebook ({
         name: body.name,
@@ -94,6 +95,7 @@ app.post('/api/persons', (request, response) => {
         //console.log('phonebook saved!', savedPerson)
         response.json(savedPerson.toJSON())
         })
+        .catch(error => next(error))
         
  })
 
@@ -105,11 +107,13 @@ app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
   console.error('ErrorHandler: ', error.message)
+  
 
   if (error.name === 'CastError' && error.kind == 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
-
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
   next(error)
 }
 

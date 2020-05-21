@@ -1,7 +1,9 @@
-PUT http://localhost:3003/api/persons/5ebe8ed01f85ca37b81f1d7c
+// miksi tämän rest client response näyttää 200ok 
+// mutta numero on vanha, kantaan tallentuu ok
+PUT http://localhost:3003/api/persons/5ec6db7297fea629dc41cc6b
 Content-Type: application/json
 
 {
     "name": "Jaska Jokunen",
-    "number": "1222222"
+    "number": "1122334466"
 }

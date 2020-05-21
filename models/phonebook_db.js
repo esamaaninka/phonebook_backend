@@ -1,5 +1,8 @@
 const mongoose = require('mongoose')
+var uniqueValidator = require('mongoose-unique-validator');
+
 mongoose.set('useFindAndModify', false)
+mongoose.set('useCreateIndex', true) // to remove  DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
 
 const url = process.env.MONGODB_URI
 
@@ -14,13 +17,21 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   })
 
 const phonebookSchema = new mongoose.Schema({
-    name: String,
-    number: String,
+    name: {
+      type: String,
+      minlength: 3,
+      required: true,
+      unique: true
+    },
+    number: {
+      type: String,
+      minlength: 8,
+      required: true,
+      //unique: true
+    }
 })
 
-// tämä vai allaoleva ?
-//const Phonebook = mongoose.model('Phonebook', phonebookSchema)
-
+phonebookSchema.plugin(uniqueValidator)
 
 phonebookSchema.set('toJSON', {
   transform: (document, returnedObject) => {
