@@ -43,9 +43,11 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.get('/info', (request, response, next) => {
     //console.log('info')
+    const date = new Date()
     Phonebook.countDocuments()
       .then(result => {
-        response.send(`<div><p>Phonebook has info for ${result} people.</p></div>`)
+        response.send(`<div><p>Phonebook has info for ${result} people.</p>
+                      <p>${date}</p></div>`)
       })
       .catch(error => next(error))
 })
@@ -71,7 +73,6 @@ app.put('/api/persons/:id', (request, response, next) => {
   }
   Phonebook.findByIdAndUpdate(request.params.id, person, { runValidators: true, context: 'query'})
     .then(updatedPerson => {
-      console.log('updated person: ', updatedPerson)
       response.json(updatedPerson.toJSON())
     })
     .catch(error => next(error))
