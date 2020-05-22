@@ -10,7 +10,7 @@ app.use(express.static('build'))
 
 var morgan = require('morgan')
 //app.use(morgan('tiny'))
-morgan.token('body', function (request, response) { return (JSON.stringify(request.body)) })
+morgan.token('body', function (request, /*response*/) { return (JSON.stringify(request.body)) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 
