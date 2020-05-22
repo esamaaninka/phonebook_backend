@@ -4,7 +4,7 @@ Backend for phonebook app, Fullstack2020 excercise 3.x
 /info           shows total amount of persons in database and date
 /api/persons    the detailed persons list in json format
 
-Local server running on port 3003 by default, see .env
+Local server running on port 3001 by default, see .env
 
 Heroku:
 https://powerful-mountain-66311.herokuapp.com/
