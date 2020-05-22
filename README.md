@@ -12,4 +12,3 @@ https://powerful-mountain-66311.herokuapp.com/
 
 Note! if creating, editing Procfile in Windows, pay special attention to extra chars/symbols whatever added by windows - could not get it working despite trying to force UTF-8, created the file in linux computer and pushed to git. 
 
-Note: adding the person second time, i.e modifying the number does not work yet, excercise 3.17 will address this.
