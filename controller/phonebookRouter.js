@@ -1,5 +1,5 @@
-const phonebookRouter = require('express').Router();
-const Phonebook = require('../models/phonebook_db');
+const phonebookRouter = require('express').Router()
+const Phonebook = require('../models/phonebook_db')
 
 phonebookRouter.get('/api/persons', (request, response) => {
   Phonebook.find({}).then(result => {
@@ -38,7 +38,9 @@ phonebookRouter.get('/info', (request, response, next) => {
 
 phonebookRouter.delete('/api/persons/:id', (request, response, next) => {
   Phonebook.findByIdAndRemove(request.params.id)
+  /* eslint-disable */ // miksi lint herjaa tästä mutta ei yo
     .then(result => {
+  /* eslint-enable */
       response.status(204).end()
     })
     .catch(error => next(error))
